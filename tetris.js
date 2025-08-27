@@ -496,32 +496,38 @@ const player = {
 // イベントリスナーの設定
 // ========================================
 
-// キーボード入力イベント
-document.addEventListener('keydown', (event) => {
-  if (gameState.isGameOver) return;
-  
-  const keyActions = {
-    'ArrowLeft': () => movePlayer(-1),
-    'ArrowRight': () => movePlayer(1),
-    'ArrowDown': () => dropPlayer(),
-    'q': () => rotatePlayer(-1),
-    'w': () => rotatePlayer(1)
-  };
-  
-  const action = keyActions[event.key];
-  if (action) {
-    action();
-  }
-});
+// テスト用の自動開始無効化チェック
+if (!window.DISABLE_AUTO_START) {
+  // キーボード入力イベント
+  document.addEventListener('keydown', (event) => {
+    if (gameState.isGameOver) return;
+    
+    const keyActions = {
+      'ArrowLeft': () => movePlayer(-1),
+      'ArrowRight': () => movePlayer(1),
+      'ArrowDown': () => dropPlayer(),
+      'q': () => rotatePlayer(-1),
+      'w': () => rotatePlayer(1)
+    };
+    
+    const action = keyActions[event.key];
+    if (action) {
+      action();
+    }
+  });
 
-// リスタートボタンイベント
-document.getElementById('restart').addEventListener('click', restartGame);
+  // リスタートボタンイベント
+  document.getElementById('restart').addEventListener('click', restartGame);
+}
 
 // ========================================
 // ゲーム開始
 // ========================================
 
-// 初期設定
-resetPlayer();
-updateScoreDisplay();
-gameLoop();
+// テスト用の自動開始無効化チェック
+if (!window.DISABLE_AUTO_START) {
+  // 初期設定
+  resetPlayer();
+  updateScoreDisplay();
+  gameLoop();
+}

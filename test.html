@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>テトリス テスト</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f0f0f0;
+    }
+    .test-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-result {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+    }
+    .test-pass {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .test-fail {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .test-summary {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #tetris, #next {
+      display: none; /* テスト用に非表示 */
+    }
+  </style>
+</head>
+<body>
+  <h1>テトリス ユニットテスト</h1>
+  
+  <!-- テスト用のcanvas要素（非表示） -->
+  <canvas id="tetris" width="240" height="400"></canvas>
+  <canvas id="next" width="80" height="80"></canvas>
+  <div id="score">Score: 0</div>
+  <button id="restart" style="display:none;">再スタート</button>
+  
+  <div id="test-results"></div>
+  
+  <!-- テスト専用: ゲーム関数のみ読み込み、自動開始は無効化 -->
+  <script>
+    // tetris.jsの内容を読み込むが、自動実行を防ぐ
+    window.DISABLE_AUTO_START = true;
+  </script>
+  <script src="tetris.js"></script>
+  
+  <!-- テストコード -->
+  <script src="tetris-test.js"></script>
+</body>
+</html>

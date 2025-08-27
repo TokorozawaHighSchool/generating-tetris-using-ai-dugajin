@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>テトリス テストランナー</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+    
+    .test-container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .test-result {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border-left: 4px solid;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .test-pass {
+      background: #d4edda;
+      color: #155724;
+      border-left-color: #28a745;
+    }
+    
+    .test-fail {
+      background: #f8d7da;
+      color: #721c24;
+      border-left-color: #dc3545;
+    }
+    
+    .test-summary {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 25px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .performance-info {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .loading {
+      text-align: center;
+      font-size: 18px;
+      color: #666;
+      margin: 40px 0;
+    }
+    
+    .test-category {
+      font-size: 18px;
+      font-weight: bold;
+      color: #495057;
+      margin: 20px 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e9ecef;
+    }
+    
+    /* 非表示のcanvas要素 */
+    #tetris, #next, #score, #restart {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎮 テトリス ユニットテスト</h1>
+    <p>コードの品質と機能性を確認中...</p>
+  </div>
+  
+  <div class="loading" id="loading">
+    ⏳ テストを準備しています...
+  </div>
+  
+  <!-- 非表示のゲーム要素（テスト用） -->
+  <canvas id="tetris" width="240" height="400"></canvas>
+  <canvas id="next" width="80" height="80"></canvas>
+  <div id="score">Score: 0</div>
+  <button id="restart">再スタート</button>
+  
+  <div id="test-results"></div>
+  
+  <script>
+    // テスト専用: ゲームの自動開始を完全に無効化
+    window.DISABLE_AUTO_START = true;
+    
+    // テトリスコアを読み込み（ゲームは開始されない）
+  </script>
+  <script src="tetris.js"></script>
+  
+  <script>
+    // ローディング表示の制御
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('テストページが読み込まれました');
+      
+      // ローディング表示を更新
+      const loading = document.getElementById('loading');
+      loading.textContent = '🧪 テストを実行中...';
+      
+      // テストの開始を少し遅らせて、すべての要素が準備されるのを待つ
+      setTimeout(() => {
+        loading.style.display = 'none';
+        
+        // テトリスのゲーム関数が使用可能かチェック
+        if (typeof createMatrix === 'function') {
+          console.log('✅ テトリス関数が正常に読み込まれました');
+          loadAndRunTests();
+        } else {
+          console.error('❌ テトリス関数の読み込みに失敗しました');
+          document.getElementById('test-results').innerHTML = 
+            '<div class="test-result test-fail">❌ テトリス関数の読み込みに失敗しました</div>';
+        }
+      }, 500);
+    });
+    
+    // テストスクリプトを動的に読み込んで実行
+    function loadAndRunTests() {
+      const script = document.createElement('script');
+      script.src = 'tetris-test.js';
+      script.onload = () => {
+        console.log('✅ テストスクリプトが読み込まれました');
+        // テストスクリプト内でDOMContentLoadedを待っているので、手動で実行
+        if (typeof testRunner !== 'undefined') {
+          setTimeout(() => {
+            console.log('🚀 テストを開始します');
+            testRunner.runAll();
+          }, 100);
+        }
+      };
+      script.onerror = () => {
+        console.error('❌ テストスクリプトの読み込みに失敗しました');
+        document.getElementById('test-results').innerHTML = 
+          '<div class="test-result test-fail">❌ テストスクリプトの読み込みに失敗しました</div>';
+      };
+      document.head.appendChild(script);
+    }
+  </script>
+</body>
+</html>
