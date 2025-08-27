@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>テトリス</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>テトリス</h1>
+  <div style="display: flex; justify-content: center; align-items: flex-start; gap: 40px;">
+    <div>
+      <canvas id="tetris" width="240" height="400"></canvas>
+  <div id="score">Score: 0</div>
+  <button id="restart" style="display:none; margin-top:20px; font-size:1.2em;">再スタート</button>
+    </div>
+    <div>
+      <h2>NEXT</h2>
+      <canvas id="next" width="80" height="80"></canvas>
+    </div>
+  </div>
+  <script src="tetris.js"></script>
+</body>
+</html>
